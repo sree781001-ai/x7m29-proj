@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, My Love!</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Pacifico&family=Poppins:wght@300;400;600;700&display=swap');
+
+    :root {
+      --color-rose: #ff4d6d;
+      --color-pink: #ff85a1;
+      --color-cream: #fff5f7;
+      --color-chocolate: #5c2c16;
+      --color-gold: #ffb703;
+      --shadow-soft: 0 15px 35px rgba(255, 77, 109, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      background-color: #030102;
+      transition: background-color 1.5s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    body.lights-on {
+      background: radial-gradient(circle at center, #1a080c 0%, #050203 100%);
+    }
+
+    /* Dark Screen & Interactive Candle Scene */
+    .dark-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 100;
+      transition: opacity 1.5s ease, visibility 1.5s;
+      background: radial-gradient(circle at center, #120406 0%, #030102 85%, #010001 100%);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dark-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Cinematic background falling particles canvas overlay (UNCHANGED) */
+    #bgDustCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 101;
+    }
+
+    /* Ambient atmospheric room glow reacting to lit count */
+    .room-ambient-glow {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 55%, rgba(255, 110, 50, var(--ambient-opacity, 0)) 0%, rgba(120, 20, 30, calc(var(--ambient-opacity, 0) * 0.4)) 40%, transparent 75%);
+      transition: background 0.8s ease;
+      z-index: 102;
+    }
+
+    .dark-instruction-container {
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 106;
+      pointer-events: none;
+      width: 90%;
+      max-width: 600px;
+    }
+
+    .dark-instruction {
+      color: #fce8ec;
+      font-family: 'Pacifico', cursive;
+      font-size: 1.4rem;
+      text-shadow: 0 0 15px rgba(255, 77, 109, 0.6);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .micro-message {
+      color: #ffb3c1;
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      margin-top: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      text-shadow: 0 0 10px rgba(255, 120, 150, 0.4);
+    }
+
+    .micro-message.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Cinematic Candle Room Stage with Perfect Balanced Altar Layout */
+    .candle-room-stage {
+      position: relative;
+      width: 100%;
+      max-width: 750px;
+      height: 450px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 103;
+    }
+
+    /* Candle Styling & Balanced Repositioning */
+    .candle-container {
+      position: absolute;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 103;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .candle-container:hover {
+      transform: scale(1.05);
+    }
+
+    /* Perfected Symmetrical Altar Layout */
+    .candle-bottom-left {
+      bottom: -15px;
+      left: calc(50% - 210px);
+      transform: translateX(-50%) scale(0.9);
+    }
+    .candle-bottom-left:hover {
+      transform: translateX(-50%) scale(0.95);
+    }
+
+    .candle-top-right {
+      bottom: -15px;
+      right: calc(50% - 210px);
+      transform: translateX(50%) scale(0.9);
+    }
+    .candle-top-right:hover {
+      transform: translateX(50%) scale(0.95);
+    }
+
+    .candle-center-heart {
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.95);
+    }
+    .candle-center-heart:hover {
+      transform: translateX(-50%) scale(0.98);
+    }
+
+    @media (max-width: 768px) {
+      .candle-bottom-left {
+        left: calc(50% - 145px);
+        transform: translateX(-50%) scale(0.8);
+      }
+      .candle-bottom-left:hover {
+        transform: translateX(-50%) scale(0.85);
+      }
+      .candle-top-right {
+        right: calc(50% - 145px);
+        transform: translateX(-50%) scale(0.8);
+      }
+      .candle-top-right:hover {
+        transform: translateX(50%) scale(0.85);
+      }
+      .candle-center-heart {
+        transform: translateX(-50%) scale(0.85);
+      }
+      .candle-center-heart:hover {
+        transform: translateX(-50%) scale(0.88);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .candle-bottom-left {
+        left: calc(50% - 115px);
+        transform: translateX(-50%) scale(0.72);
+      }
+      .candle-top-right {
+        right: calc(50% - 115px);
+        transform: translateX(50%) scale(0.72);
+      }
+      .candle-center-heart {
+        transform: translateX(-50%) scale(0.75);
+      }
+    }
+
+    /* ---------- Premium Side Pillar Candles (CSS) ---------- */
+    .css-candle {
+      position: relative;
+      width: 72px;
+      height: 140px;
+    }
+
+    .c-flame {
+      position: absolute;
+      bottom: 148px;
+      left: 50%;
+      margin-left: -11px;
+      width: 22px;
+      height: 52px;
+      background: radial-gradient(ellipse at bottom, #ffffff 0%, #ffe564 30%, #ff6b1a 75%, rgba(255, 50, 0, 0) 100%);
+      border-radius: 50% 50% 35% 35% / 70% 70% 35% 35%;
+      box-shadow: 0 0 15px #ff4d6d, 0 0 30px #ffb703, 0 -5px 12px #ffffff;
+      transform-origin: bottom center;
+      filter: blur(0.4px);
+      opacity: 0;
+      transform: scale(0.1);
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 5;
+    }
+
+    .candle-container.lit .c-flame {
+      opacity: 1;
+    }
+
+    .c-glow {
+      position: absolute;
+      bottom: 110px;
+      left: 50%;
+      width: 220px;
+      height: 220px;
+      margin-left: -110px;
+      background: radial-gradient(circle, rgba(255,140,50,0.32) 0%, rgba(255,80,30,0.12) 45%, transparent 70%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+      z-index: 1;
+    }
+
+    .candle-container.lit .c-glow {
+      opacity: 1;
+    }
+
+    .c-wick {
+      width: 3px;
+      height: 12px;
+      background: #1c1515;
+      border-radius: 1.5px;
+      position: absolute;
+      bottom: 138px;
+      left: 50%;
+      margin-left: -1.5px;
+      z-index: 4;
+    }
+
+    .wax-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 72px;
+      height: 138px;
+      background: linear-gradient(135deg, #ffb3c1 0%, #ff8097 35%, #d94e68 70%, #8c2338 100%);
+      border-radius: 8px 8px 3px 3px;
+      box-shadow: inset 0 12px 18px rgba(255,255,255,0.35), inset 0 -12px 18px rgba(0,0,0,0.5), 0 10px 25px rgba(0,0,0,0.7);
+    }
+
+    .wax-melt-drip {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 15px;
+      background: radial-gradient(ellipse at center, rgba(255,230,235,0.9) 0%, rgba(255,150,170,0.6) 60%, transparent 100%);
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+
+    .wax-top-glow {
+      position: absolute;
+      top: 0;
+      width: 72px;
+      height: 10px;
+      background: radial-gradient(ellipse at center, rgba(255,230,120,0.9) 0%, rgba(255,100,120,0) 75%);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .candle-container.lit .wax-top-glow {
+      opacity: 1;
+    }
+
+    /* ---------- 3D rose-petal heart candle container ---------- */
+    .candle-center-heart {
+      width: min(70vw, 270px);
+      height: min(60vw, 230px);
+    }
+    #heartCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      filter: drop-shadow(0 15px 25px rgba(0,0,0,0.8));
+    }
+    #heartFallback {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+    body.no-three #heartFallback { display: flex; }
+    body.no-three #heartCanvas { display: none; }
+
+    /* Cinematic Final Reveal Overlay for Phase 1 */
+    .phase1-reveal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(15, 3, 6, 0.95) 0%, rgba(3, 1, 2, 0.98) 100%);
+      z-index: 110;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 30px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+    }
+
+    .phase1-reveal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .reveal-content-box {
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .reveal-line {
+      color: #fff5f7;
+      font-family: 'Caveat', cursive;
+      font-size: 1.9rem;
+      line-height: 1.4;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      text-shadow: 0 0 20px rgba(255, 77, 109, 0.4);
+    }
+
+    .reveal-line.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-line.highlight-title {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.3rem;
+      color: var(--color-rose);
+      text-shadow: 0 0 25px rgba(255, 77, 109, 0.7);
+    }
+
+    .reveal-continue-btn {
+      background: linear-gradient(45deg, var(--color-rose), var(--color-pink));
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(255, 77, 109, 0.5);
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+    }
+
+    .reveal-continue-btn.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .reveal-continue-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 12px 30px rgba(255, 77, 109, 0.7);
+    }
+
+    /* Floating Decor (Hidden during Phase 1 candle room) */
+    .floating-decor {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+
+    body.lights-on .floating-decor {
+      opacity: 0.8;
+    }
+
+    .decor-item {
+      position: absolute;
+      animation: floatAnim 6s infinite ease-in-out;
+    }
+
+    @keyframes floatAnim {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+    }
+
+    /* Main Container */
+    .main-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 520px;
+      height: 85vh;
+      max-height: 700px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Cards Layout */
+    .card {
+      background: var(--color-cream);
+      border: 4px solid #ffb3c1;
+      border-radius: 35px;
+      padding: 35px 25px;
+      width: 100%;
+      height: 100%;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.8) translateY(30px);
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .card.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Typography */
+    .title-font {
+      font-family: 'Pacifico', cursive;
+      color: var(--color-rose);
+      font-size: 2.2rem;
+      line-height: 1.2;
+      transition: all 0.5s ease;
+    }
+
+    .handwritten {
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem;
+      color: var(--color-chocolate);
+      line-height: 1.3;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .emoji-hero {
+      font-size: 5.5rem;
+      margin: 15px 0;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+      animation: pulseHero 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseHero {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    /* Buttons */
+    .btn {
+      background: linear-gradient(45deg, var(--color-rose), var(--color-pink));
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
+      transition: all 0.25s ease;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 25px rgba(255, 77, 109, 0.6);
+    }
+
+    /* ======================================================== */
+    /* PHASE 2: PREMIUM 3D BAKERY-STYLE BIRTHDAY CAKE           */
+    /* ======================================================== */
+    .cake-scene-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 8px 0;
+      animation: cakeBreathing 4s ease-in-out infinite;
+    }
+
+    @keyframes cakeBreathing {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-4px) scale(1.01); }
+    }
+
+    /* Soft ambient radial glow behind the cake */
+    .cake-scene-container::before {
+      content: '';
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(255, 130, 160, 0.35) 0%, rgba(255, 180, 100, 0.15) 50%, transparent 75%);
+      border-radius: 50%;
+      z-index: 0;
+      animation: ambientGlowPulse 5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes ambientGlowPulse {
+      0%, 100% { opacity: 0.7; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    .cake-candle-area {
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: -4px;
+      z-index: 10;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .cake-candle-flame {
+      width: 14px;
+      height: 26px;
+      background: radial-gradient(ellipse at bottom, #ffffff 0%, #fff176 30%, #ff7043 75%, transparent 100%);
+      border-radius: 50% 50% 35% 35% / 75% 75% 30% 30%;
+      box-shadow: 0 0 16px rgba(255, 107, 129, 0.8), 0 0 25px rgba(255, 183, 3, 0.6);
+      animation: organicFlameFlicker 0.25s infinite alternate ease-in-out;
+      transform-origin: bottom center;
+      transition: all 0.4s ease;
+    }
+
+    @keyframes organicFlameFlicker {
+      0% { transform: rotate(-3deg) scale(0.92, 1.04) translateX(-1px); }
+      100% { transform: rotate(3deg) scale(1.04, 0.94) translateX(1px); }
+    }
+
+    .cake-candle-wick {
+      width: 2px;
+      height: 8px;
+      background: #2a1b1b;
+      border-radius: 1px;
+    }
+
+    .cake-candle-body {
+      width: 10px;
+      height: 32px;
+      background: linear-gradient(to right, #ff8097, #ffe0e6, #ff4d6d);
+      border-radius: 3px;
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.6), 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    /* Tiny subtle smoke wisp rising after candle extinguishes */
+    .candle-smoke {
+      position: absolute;
+      top: -30px;
+      width: 8px;
+      height: 35px;
+      background: radial-gradient(circle, rgba(240,240,240,0.6) 0%, rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+      filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .candle-smoke.animate-smoke {
+      animation: riseSmoke 1.6s ease-out forwards;
+    }
+
+    @keyframes riseSmoke {
+      0% { opacity: 0.7; transform: translateY(0) scaleX(0.5); }
+      50% { opacity: 0.4; transform: translateY(-20px) scaleX(1.5) rotate(15deg); }
+      100% { opacity: 0; transform: translateY(-40px) scaleX(2.5) rotate(-15deg); }
+    }
+
+    /* Realistic 3D Three-Tier Bakery Cake Structure */
+    .cake-structure {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      filter: drop-shadow(0 18px 25px rgba(50, 15, 25, 0.35));
+      z-index: 2;
+      transform: scale(0.92);
+    }
+
+    /* Common layer styling for smoothness and 3D dimensionality */
+    .tier-layer {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50px / 18px;
+    }
+
+    /* Top Tier - Soft Pink Cream */
+    .tier-top {
+      width: 130px;
+      height: 42px;
+      background: linear-gradient(180deg, #ffccd5 0%, #ff8097 50%, #d94e68 100%);
+      box-shadow: inset 0 8px 12px rgba(255,255,255,0.6), inset 0 -8px 12px rgba(0,0,0,0.25), 0 4px 10px rgba(0,0,0,0.1);
+      z-index: 4;
+    }
+
+    /* Middle Tier - Rich Chocolate */
+    .tier-middle {
+      width: 175px;
+      height: 46px;
+      background: linear-gradient(180deg, #7c3a21 0%, #5c2c16 50%, #3d1c0e 100%);
+      margin-top: -4px;
+      box-shadow: inset 0 8px 12px rgba(255,255,255,0.25), inset 0 -8px 12px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 3;
+    }
+
+    /* Bottom Tier - Creamy Strawberry/Pink */
+    .tier-bottom {
+      width: 220px;
+      height: 52px;
+      background: linear-gradient(180deg, #ffb3c1 0%, #ff4d6d 50%, #b7094c 100%);
+      margin-top: -4px;
+      box-shadow: inset 0 10px 15px rgba(255,255,255,0.5), inset 0 -10px 15px rgba(0,0,0,0.25), 0 6px 15px rgba(0,0,0,0.18);
+      z-index: 2;
+    }
+
+    /* Chocolate Drip Effect on Top Tier */
+    .chocolate-drip {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 18px;
+      background: linear-gradient(180deg, #5c2c16 0%, #3d1c0e 100%);
+      border-radius: 50px / 18px;
+      clip-path: polygon(0 0, 100% 0, 100% 65%, 95% 100%, 90% 70%, 85% 95%, 78% 65%, 70% 100%, 62% 70%, 55% 90%, 48% 60%, 40% 95%, 33% 70%, 25% 100%, 18% 75%, 10% 90%, 5% 65%, 0 85%);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+    }
+
+    /* Creamy Whipped Dollops / Borders */
+    .cream-dollop {
+      position: absolute;
+      top: -4px;
+      width: 100%;
+      height: 10px;
+      background: radial-gradient(circle, #fff 60%, #ffd1dc 100%);
+      border-radius: 50%;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));
+    }
+
+    /* Decorative Strawberries & Hearts */
+    .cake-decoration {
+      position: absolute;
+      font-size: 0.85rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      z-index: 5;
+    }
+
+    .cake-plate {
+      width: 260px;
+      height: 14px;
+      background: linear-gradient(to right, #cbd5e1, #f8fafc, #94a3b8);
+      border-radius: 50%;
+      margin-top: -3px;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.28);
+      z-index: 1;
+    }
+
+    /* Subtle background floating magical dust particles for Step 2 */
+    .cake-bg-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .floating-sparkle {
+      position: absolute;
+      background: radial-gradient(circle, #fff 0%, rgba(255,182,193,0.8) 50%, transparent 100%);
+      border-radius: 50%;
+      animation: floatParticleUp 6s linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes floatParticleUp {
+      0% { transform: translateY(120px) scale(0.3); opacity: 0; }
+      20% { opacity: 0.7; }
+      80% { opacity: 0.7; }
+      100% { transform: translateY(-180px) scale(1.2); opacity: 0; }
+    }
+
+    /* ======================================================== */
+    /* PHASE 3: INTERACTIVE ROMANTIC CHOCOLATE GIFT BOX STYLING */
+    /* ======================================================== */
+    .phase3-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 10px 0;
+      width: 100%;
+    }
+
+    .phase3-box-scene {
+      position: relative;
+      width: 220px;
+      height: 180px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      perspective: 800px;
+      animation: boxFloating 4s ease-in-out infinite;
+      margin: 10px 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @keyframes boxFloating {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* Soft Warm Inner Glow when opened */
+    .phase3-box-scene::before {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255, 183, 3, 0.35) 0%, rgba(255, 77, 109, 0.2) 50%, transparent 75%);
+      border-radius: 50%;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 1s ease;
+      pointer-events: none;
+    }
+    .phase3-box-scene.opened::before {
+      opacity: 1;
+    }
+
+    /* Chocolate Gift Box Base */
+    .phase3-box-base {
+      position: absolute;
+      bottom: 20px;
+      width: 170px;
+      height: 110px;
+      background: linear-gradient(135deg, #3d1c0e 0%, #5c2c16 50%, #2b1308 100%);
+      border-radius: 12px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4), inset 0 3px 8px rgba(255,255,255,0.15);
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .phase3-box-ribbon-v {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 20px;
+      background: linear-gradient(to right, #ff4d6d, #ff85a1, #ff4d6d);
+      box-shadow: 0 0 8px rgba(255,77,109,0.5);
+    }
+    .phase3-box-ribbon-h {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: linear-gradient(to bottom, #ff4d6d, #ff85a1, #ff4d6d);
+      box-shadow: 0 0 8px rgba(255,77,109,0.5);
+    }
+
+    /* Inner Tray & Chocolates */
+    .phase3-inner-tray {
+      position: absolute;
+      bottom: 30px;
+      width: 150px;
+      height: 90px;
+      background: #1e0d06;
+      border-radius: 8px;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 8px;
+      padding: 10px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .phase3-box-scene.opened .phase3-inner-tray {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .phase3-chocolate {
+      background: linear-gradient(135deg, #4a2211 0%, #2b1308 100%);
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.2), 0 3px 6px rgba(0,0,0,0.3);
+      transition: transform 0.25s ease, background 0.25s ease;
+      position: relative;
+      font-size: 0.75rem;
+    }
+    .phase3-chocolate:hover {
+      transform: scale(1.12);
+      background: linear-gradient(135deg, #6c321a 0%, #3d1c0e 100%);
+    }
+    .phase3-chocolate.heart-choc {
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      background: linear-gradient(135deg, #7d2638 0%, #4a1520 100%);
+    }
+
+    /* Floating mini popup word when chocolate is tapped */
+    .choc-popup-word {
+      position: absolute;
+      top: -25px;
+      background: rgba(255, 77, 109, 0.9);
+      color: #fff;
+      font-family: 'Caveat', cursive;
+      font-size: 0.95rem;
+      padding: 2px 8px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s ease;
+      white-space: nowrap;
+      z-index: 10;
+    }
+    .choc-popup-word.show {
+      opacity: 1;
+      transform: translateY(-8px);
+    }
+
+    /* Box Lid with 3D hinge opening */
+    .phase3-box-lid {
+      position: absolute;
+      top: 15px;
+      width: 178px;
+      height: 45px;
+      background: linear-gradient(135deg, #4a2211 0%, #5c2c16 50%, #3d1c0e 100%);
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      z-index: 4;
+      transform-origin: top center;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .phase3-box-scene.opened .phase3-box-lid {
+      transform: rotateX(-120deg) translateY(-25px);
+    }
+
+    .phase3-lid-ribbon-v {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 79px;
+      width: 20px;
+      background: linear-gradient(to right, #ff4d6d, #ff85a1, #ff4d6d);
+    }
+
+    .phase3-hint {
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      color: var(--color-chocolate);
+      margin-top: 5px;
+      transition: opacity 0.5s ease;
+    }
+
+    .phase3-message-box {
+      opacity: 0;
+      transform: translateY(15px);
+      transition: all 0.8s ease;
+      pointer-events: none;
+      margin: 8px 0;
+    }
+    .phase3-message-box.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Step 5: Love Reasons Grid */
+    .reasons-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .reason-item {
+      background: #fff;
+      padding: 12px 18px;
+      border-radius: 15px;
+      border-left: 5px solid var(--color-rose);
+      font-size: 0.9rem;
+      color: #444;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    /* Canvas FX */
+    #fxCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 50;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="fxCanvas"></canvas>
+
+  <!-- Background Floating Decor (Hidden during Phase 1 candle room) -->
+  <div class="floating-decor">
+    <div class="decor-item" style="top: 10%; left: 8%; font-size: 2.5rem;">🧸</div>
+    <div class="decor-item" style="top: 75%; left: 12%; font-size: 2.2rem;">🍫</div>
+    <div class="decor-item" style="top: 15%; right: 10%; font-size: 3rem;">🌹</div>
+    <div class="decor-item" style="top: 70%; right: 12%; font-size: 2.5rem;">💖</div>
+    <div class="decor-item" style="top: 45%; left: 5%; font-size: 2rem;">🎀</div>
+    <div class="decor-item" style="top: 40%; right: 6%; font-size: 2.2rem;">✨</div>
+  </div>
+
+  <!-- STEP 0: Dark Room Interactive Candle Lighting Scene -->
+  <div class="dark-screen" id="darkScreen">
+    <canvas id="bgDustCanvas"></canvas>
+    <div class="room-ambient-glow" id="roomAmbientGlow"></div>
+
+    <div class="dark-instruction-container">
+      <div class="dark-instruction" id="darkInstruction">Tap all 3 candles to light up her world... 🕯️✨</div>
+      <div class="micro-message" id="microMessage"></div>
+    </div>
+
+    <div class="candle-room-stage">
+      <!-- Candle 1: Bottom Left -->
+      <div class="candle-container candle-bottom-left" onclick="lightCandle(this, 1)">
+        <div class="css-candle">
+          <div class="c-glow"></div>
+          <div class="c-flame"></div>
+          <div class="c-wick"></div>
+          <div class="wax-body">
+            <div class="wax-melt-drip"></div>
+            <div class="wax-top-glow"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: real 3D rose-petal heart candle (Three.js) -->
+      <div class="candle-container candle-center-heart" id="heartCandle" onclick="lightCandle(this, 3)">
+        <canvas id="heartCanvas"></canvas>
+        <div id="heartFallback">
+          <div class="flame-wrapper"><div class="flame-core"></div></div>
+          <div class="wick"></div>
+          <svg class="heart-candle-graphic" viewBox="0 0 160 150">
+            <ellipse cx="80" cy="115" rx="70" ry="25" fill="#1e1e24" stroke="#333" stroke-width="2"/>
+            <path d="M80 105 C 50 60, 20 80, 45 110 C 65 125, 80 135, 80 135 C 80 135, 95 125, 115 110 C 140 80, 110 60, 80 105 Z" fill="#b7094c"/>
+            <path d="M80 95 C 60 65, 35 80, 55 102 C 70 115, 80 122, 80 122 C 80 122, 90 115, 105 102 C 125 80, 100 65, 80 95 Z" fill="#d00000"/>
+            <path d="M80 88 C 68 68, 48 78, 62 95 C 72 105, 80 110, 80 110 C 80 110, 88 105, 98 95 C 112 78, 92 68, 80 88 Z" fill="#ff0054"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Candle 3: Bottom Right -->
+      <div class="candle-container candle-top-right" onclick="lightCandle(this, 2)">
+        <div class="css-candle">
+          <div class="c-glow"></div>
+          <div class="c-flame"></div>
+          <div class="c-wick"></div>
+          <div class="wax-body">
+            <div class="wax-melt-drip"></div>
+            <div class="wax-top-glow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cinematic Final Reveal Sequence Overlay -->
+    <div class="phase1-reveal-overlay" id="phase1RevealOverlay">
+      <div class="reveal-content-box">
+        <div class="reveal-line" id="revLine1">And just like that...<br>you made my world brighter. ❤️</div>
+        <div class="reveal-line" id="revLine2">For the one who became the brightest part of my world... ❤️</div>
+        <div class="reveal-line highlight-title" id="revLine3">Happy Birthday, My Love ✨</div>
+        <div class="reveal-line" id="revLine4">I don't need candles to make a wish...<br>I already have you. ❤️</div>
+        <button class="reveal-continue-btn" id="revealContinueBtn" onclick="finishPhase1()">Continue ❤️</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="main-wrapper">
+
+    <!-- STEP 1: Entrance Greeting -->
+    <div class="card" id="step1">
+      <div class="title-font">Hey Princess... 👑</div>
+      <div class="emoji-hero">🧸🌹</div>
+      <div class="handwritten">I made a special little world just for you.</div>
+      <button class="btn" onclick="goToStep(2)">Step Inside ❤️</button>
+    </div>
+
+    <!-- STEP 2: Birthday Cake Blow Out (UPDATED WITH PREMIUM 3D TIERED BAKERY CAKE) -->
+    <div class="card" id="step2">
+      <div class="title-font" id="cakeTitle">Make a Wish... ✨</div>
+      
+      <div class="cake-scene-container">
+        <!-- Background soft magic dust container behind cake -->
+        <div class="cake-bg-particles">
+          <div class="floating-sparkle" style="left: 15%; animation-duration: 5s; animation-delay: 0s; width: 6px; height: 6px;"></div>
+          <div class="floating-sparkle" style="left: 80%; animation-duration: 6.5s; animation-delay: 1.2s; width: 4px; height: 4px;"></div>
+          <div class="floating-sparkle" style="left: 45%; animation-duration: 5.5s; animation-delay: 2.5s; width: 5px; height: 5px;"></div>
+          <div class="floating-sparkle" style="left: 30%; animation-duration: 7s; animation-delay: 0.8s; width: 3px; height: 3px;"></div>
+          <div class="floating-sparkle" style="left: 70%; animation-duration: 5.8s; animation-delay: 3.1s; width: 5px; height: 5px;"></div>
+        </div>
+
+        <!-- Cake Candle Area with Smoke Wisp -->
+        <div class="candle-press-wrapper" style="position: relative;">
+          <div class="candle-smoke" id="candleSmoke"></div>
+          <div class="cake-candle-area" id="cakeCandleArea" onclick="blowOutCakeCandle()">
+            <div class="cake-candle-flame" id="cakeFlame"></div>
+            <div class="cake-candle-wick"></div>
+            <div class="cake-candle-body"></div>
+          </div>
+        </div>
+
+        <!-- Realistic 3D Three-Tier Bakery Cake Structure -->
+        <div class="cake-structure">
+          <!-- Top Tier -->
+          <div class="tier-layer tier-top">
+            <div class="chocolate-drip"></div>
+            <div class="cream-dollop"></div>
+            <div class="cake-decoration" style="top: 6px; left: 32%;">🍓</div>
+            <div class="cake-decoration" style="top: 6px; right: 32%;">💖</div>
+          </div>
+          <!-- Middle Tier -->
+          <div class="tier-layer tier-middle">
+            <div class="cream-dollop"></div>
+            <div class="cake-decoration" style="top: 8px; left: 22%;">🍓</div>
+            <div class="cake-decoration" style="top: 8px; right: 22%;">🍓</div>
+          </div>
+          <!-- Bottom Tier -->
+          <div class="tier-layer tier-bottom">
+            <div class="cream-dollop"></div>
+            <div class="cake-decoration" style="top: 10px; left: 15%;">💖</div>
+            <div class="cake-decoration" style="top: 10px; left: 40%;">🍓</div>
+            <div class="cake-decoration" style="top: 10px; right: 15%;">💖</div>
+          </div>
+        </div>
+        <div class="cake-plate"></div>
+      </div>
+
+      <div class="handwritten" id="cakeInstruction">Close your eyes, make a little wish... ✨</div>
+      <button class="btn" id="step2Next" style="display: none;" onclick="goToStep(3)">Wish Granted ✨</button>
+    </div>
+
+    <!-- STEP 3: Interactive Romantic Chocolate Gift Box Experience (REDESIGNED PHASE 3) -->
+    <div class="card" id="step3">
+      <div class="title-font">For The Sweetest Girl 🍫</div>
+
+      <div class="phase3-container">
+        <!-- Interactive Chocolate Box Scene -->
+        <div class="phase3-box-scene" id="phase3BoxScene" onclick="openChocolateBox()">
+          <!-- Box Lid -->
+          <div class="phase3-box-lid" id="phase3BoxLid">
+            <div class="phase3-lid-ribbon-v"></div>
+          </div>
+          <!-- Box Base -->
+          <div class="phase3-box-base">
+            <div class="phase3-box-ribbon-v"></div>
+            <div class="phase3-box-ribbon-h"></div>
+          </div>
+          <!-- Inner Tray with Chocolates -->
+          <div class="phase3-inner-tray" id="phase3InnerTray">
+            <div class="phase3-chocolate heart-choc" onclick="event.stopPropagation(); tapChocolate(this, 'Smile ❤️')">
+              <div class="choc-popup-word">Smile ❤️</div>
+              🍫
+            </div>
+            <div class="phase3-chocolate" onclick="event.stopPropagation(); tapChocolate(this, 'Love ❤️')">
+              <div class="choc-popup-word">Love ❤️</div>
+              🍫
+            </div>
+            <div class="phase3-chocolate heart-choc" onclick="event.stopPropagation(); tapChocolate(this, 'Forever ✨')">
+              <div class="choc-popup-word">Forever ✨</div>
+              🍫
+            </div>
+            <div class="phase3-chocolate" onclick="event.stopPropagation(); tapChocolate(this, 'Sweetheart 💕')">
+              <div class="choc-popup-word">Sweetheart 💕</div>
+              🍫
+            </div>
+            <div class="phase3-chocolate heart-choc" onclick="event.stopPropagation(); tapChocolate(this, 'My World 💖')">
+              <div class="choc-popup-word">My World 💖</div>
+              🍫
+            </div>
+            <div class="phase3-chocolate" onclick="event.stopPropagation(); tapChocolate(this, 'Always ✨')">
+              <div class="choc-popup-word">Always ✨</div>
+              🍫
+            </div>
+          </div>
+        </div>
+
+        <div class="phase3-hint" id="phase3Hint">Tap to open ❤️</div>
+      </div>
+
+      <div class="phase3-message-box" id="phase3MessageBox">
+        <div class="handwritten" style="font-size: 1.5rem; line-height: 1.4;">
+          Because no chocolate could ever be as sweet as you are. ❤️<br>
+          <span style="font-size: 1.3rem; color: var(--color-rose);">But I still wanted to give you a little sweetness. ✨</span>
+        </div>
+      </div>
+
+      <button class="btn" id="step3Next" style="display: none;" onclick="goToStep(4)">Why You're Loved 💕</button>
+    </div>
+
+    <!-- STEP 4: Reasons Why You Are Special (Shifted from Step 5) -->
+    <div class="card" id="step4">
+      <div class="title-font" style="font-size: 1.8rem;">Why You're My Favorite 🥰</div>
+      
+      <div class="reasons-list">
+        <div class="reason-item">✨ Your beautiful smile brightens my darkest days.</div>
+        <div class="reason-item">🧸 You give the warmest, sweetest hugs.</div>
+        <div class="reason-item">🌹 Your soft heart and kindness make me fall every day.</div>
+        <div class="reason-item">💖 Being with you makes every moment magical.</div>
+      </div>
+
+      <button class="btn" onclick="goToStep(5)">Open Your Gift 🎁</button>
+    </div>
+
+    <!-- STEP 5: Secret Gift Box (Shifted from Step 6) -->
+    <div class="card" id="step5">
+      <div class="title-font">A Special Gift 🎀</div>
+      <div class="emoji-hero" style="cursor: pointer;" onclick="goToStep(6)">🎁</div>
+      <div class="handwritten">Tap the box to unlock your handwritten letter!</div>
+    </div>
+
+    <!-- STEP 6: Final Letter (Shifted from Step 7) -->
+<div class="card" id="step6">
+
+  <div class="title-font" style="font-size: 1.8rem;">
+    Happy Birthday, Naveena Sree! 💌
+  </div>
+
+  <div class="handwritten"
+       style="
+         font-size: 1.15rem;
+         text-align: left;
+         overflow-y: auto;
+         max-height: 400px;
+         padding: 5px 12px 10px 5px;
+         line-height: 1.65;
+       ">
+
+    To my favorite person in the entire world,<br><br>
+
+    On your special day, I just want you to know how deeply loved and cherished you are.
+    I honestly don't think words will ever be enough to explain what you mean to me,
+    but I still want to try.<br><br>
+
+    You are not just someone I love. You have become such a beautiful and important
+    part of my life. Your smile, your laughter, your little habits, and even the
+    smallest things you do have a special place in my heart. Somehow, you have a way
+    of making my ordinary days feel a little more special just by being there.<br><br>
+
+    I am grateful for every moment we have shared together. Every conversation,
+    every laugh, every silly moment, every memory we've created — all of them mean
+    so much to me. Sometimes I look back at those little moments and realize how
+    lucky I am to have someone like you in my life.<br><br>
+
+    And there is something I especially want to tell you today.<br><br>
+
+    <strong>I'm really sorry that I can't be with you on your special day.</strong>
+    I can't be there to see you, I can't talk to you the way I want to,
+    and I can't spend this beautiful day with you. I can't celebrate your birthday
+    beside you, and honestly, I wish I could be there more than anything.<br><br>
+
+    I'm sorry for not being able to be with you today. 🥺❤️<br><br>
+
+    But there is one thing I want you to remember no matter where I am.<br><br>
+
+    <strong>Wherever I am, I will always be thinking about you.
+    I'm thinking about you even right now. 🫂❤️</strong><br><br>
+
+    Even though I can't be beside you physically today, my thoughts are with you.
+    A distance between us can keep me away from you for a day, but it can never
+    change how much you mean to me. I wish I could see your smile today,
+    hear your voice, make you laugh, and spend every little moment of your
+    birthday with you.<br><br>
+
+    Maybe I can't give you my presence today, but I hope this little surprise
+    can remind you that <strong>you are always in my heart and on my mind.</strong><br><br>
+
+    Thank you for being you.<br><br>
+
+    Thank you for being someone who brings happiness into my life. Thank you for
+    the warmth, the smiles, the comfort, and all the beautiful moments you've
+    given me. Thank you for simply being a part of my life.<br><br>
+
+    I hope this new year of your life brings you everything you deserve.
+    I hope you achieve every dream you've been working towards. I hope you have
+    countless reasons to smile, beautiful moments to remember, and people around
+    you who truly appreciate how special you are.<br><br>
+
+    And whenever you feel sad, stressed, or doubt yourself, I hope you remember this:<br><br>
+
+    <strong>You are more special than you realize, more loved than you know,
+    and you will always have a special place in my heart. ❤️</strong><br><br>
+
+    I don't know what the future has planned for us, but I do know that I want
+    to keep making beautiful memories with you. I want more conversations,
+    more laughs, more silly moments, more memories, and many more birthdays
+    to celebrate together.<br><br>
+
+    Today may be your birthday, but honestly,
+    <strong>I'm the lucky one because I get to have you in my life.</strong><br><br>
+
+    So once again...<br><br>
+
+    <strong>Happy Birthday, my love. ❤️🎂</strong><br><br>
+
+    I hope you smile a lot today. I hope you feel loved today. And I hope,
+    even for a little while, this little surprise makes you feel like I'm
+    right there with you.<br><br>
+
+    No matter where I am,<br>
+    no matter how far away I may be,<br>
+    <strong>you will always be on my mind and in my heart. ❤️</strong><br><br>
+
+    With all my love,<br>
+    <strong>Yours always. ❤️</strong>
+
+  </div>
+
+  <button class="btn"
+          style="padding: 10px 20px; font-size: 0.9rem;"
+          onclick="goToStep(1)">
+    Start Again ↺
+  </button>
+
+</div>
+
+  </div>
+
+  <audio id="bgMusic" src="music/birthday-instrumental.mp3" loop></audio>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // ===== Cinematic Falling Background Dust / Sparkle Particles (UNCHANGED) =====
+    (function () {
+      const canvas = document.getElementById('bgDustCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const particleCount = 75;
+      const particles = [];
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 1.8 + 0.6,
+          speedY: Math.random() * 0.4 + 0.15,
+          speedX: (Math.random() - 0.5) * 0.3,
+          alpha: Math.random() * 0.7 + 0.2,
+          alphaSpeed: Math.random() * 0.015 + 0.005,
+          colorType: Math.random()
+        });
+      }
+
+      function animateDust() {
+        ctx.clearRect(0, 0, width, height);
+
+        particles.forEach(p => {
+          p.y += p.speedY;
+          p.x += p.speedX + Math.sin(p.y * 0.01) * 0.15;
+          p.alpha += Math.sin(Date.now() * 0.003 + p.x) * 0.008;
+          let currentAlpha = Math.max(0.1, Math.min(0.9, p.alpha));
+
+          if (window.isAllLit) {
+            currentAlpha = Math.min(1.0, currentAlpha * 1.4);
+          }
+
+          ctx.save();
+          ctx.globalAlpha = currentAlpha;
+          if (p.colorType < 0.6) {
+            ctx.fillStyle = '#ffffff'; // soft white
+          } else if (p.colorType < 0.85) {
+            ctx.fillStyle = '#ffb3c1'; // very pale pink
+          } else {
+            ctx.fillStyle = '#ffb703'; // subtle warm gold
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+
+          if (p.y > height + 10) {
+            p.y = -10;
+            p.x = Math.random() * width;
+          }
+          if (p.x < -10) p.x = width + 10;
+          if (p.x > width + 10) p.x = -10;
+        });
+
+        requestAnimationFrame(animateDust);
+      }
+      animateDust();
+    })();
+
+    // ===== 3D rose-petal heart candle =====
+    (function () {
+      const host = document.getElementById('heartCandle');
+      const canvas = document.getElementById('heartCanvas');
+      let renderer;
+      try {
+        if (typeof THREE === 'undefined') throw new Error('three.js missing');
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      } catch (e) { document.body.classList.add('no-three'); return; }
+
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(38, 1.25, 0.1, 50);
+
+      // seeded random so the petals look the same every load
+      let seed = 7;
+      const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+      // heart outline (x right, y up), centred on the origin
+      function heartPt(t) {
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+        return [x / 17, y / 17 + 0.15];
+      }
+      const N = 500, pts = [], cum = [0];
+      for (let i = 0; i <= N; i++) pts.push(heartPt(i / N * Math.PI * 2));
+      for (let i = 1; i <= N; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+      const perim = cum[N];
+      function atFrac(f) {
+        f = ((f % 1) + 1) % 1; const target = f * perim; let i = 1;
+        while (i < N && cum[i] < target) i++;
+        const k = (target - cum[i - 1]) / (cum[i] - cum[i - 1] || 1);
+        return [pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * k, pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * k];
+      }
+
+      const S = 1.4;        // heart size in world units
+      const TRAY_TOP = 0.12;
+      const root = new THREE.Group();
+      scene.add(root);
+
+      // ---- black wooden tray ----
+      const trayProfile = [[0, 0], [2.7, 0], [2.78, 0.06], [2.78, 0.22], [2.68, 0.22], [2.62, 0.12], [0, 0.12]]
+        .map(p => new THREE.Vector2(p[0], p[1]));
+      const tray = new THREE.Mesh(new THREE.LatheGeometry(trayProfile, 80),
+        new THREE.MeshStandardMaterial({ color: 0x050506, roughness: 0.85, metalness: 0.0 }));
+      tray.receiveShadow = true; tray.castShadow = true;
+      root.add(tray);
+
+      // ---- solid wax core under the petals (hides gaps) ----
+      const shape = new THREE.Shape();
+      pts.forEach((p, i) => i ? shape.lineTo(p[0] * S * 0.72, p[1] * S * 0.72) : shape.moveTo(p[0] * S * 0.72, p[1] * S * 0.72));
+      const core = new THREE.Mesh(
+        new THREE.ExtrudeGeometry(shape, { depth: 0.55, bevelEnabled: true, bevelSize: 0.08, bevelThickness: 0.08, bevelSegments: 3 }),
+        new THREE.MeshStandardMaterial({ color: 0x240204, roughness: 0.55 }));
+      core.rotation.x = -Math.PI / 2; core.position.y = TRAY_TOP + 0.05;
+      core.castShadow = true; core.receiveShadow = true;
+      root.add(core);
+
+      // ---- one rose petal ----
+      const petalMat = new THREE.MeshPhysicalMaterial({
+        vertexColors: true, side: THREE.DoubleSide, roughness: 0.4,
+        clearcoat: 0.4, clearcoatRoughness: 0.45, emissive: 0x330000, emissiveIntensity: 0
+      });
+      function makePetal(w, h, cup, curl, c1, c2) {
+        const g = new THREE.PlaneGeometry(2, 1, 10, 12);
+        const pos = g.attributes.position, cols = [];
+        const a = new THREE.Color(c1), b = new THREE.Color(c2), c = new THREE.Color();
+        const ph = rnd() * 6;
+        for (let i = 0; i < pos.count; i++) {
+          const u = pos.getX(i), v = pos.getY(i) + 0.5;
+          const r = Math.max(0, (v - 0.78) / 0.22);
+          const wf = (0.55 + 0.45 * Math.sin(v * Math.PI * 0.5)) * Math.sqrt(1 - r * r * 0.97);
+          const x = u * w * wf;
+          const y = v * h;
+          const z = -cup * u * u * w * (0.4 + 0.6 * v) + curl * v * v * h + 0.015 * h * Math.sin(u * 3 + ph) * v * v;
+          pos.setXYZ(i, x, y, z);
+          c.copy(a).lerp(b, Math.pow(v, 1.3) * 0.85 + Math.abs(u) * 0.15 * v);
+          cols.push(c.r, c.g, c.b);
+        }
+        g.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3));
+        g.computeVertexNormals();
+        return g;
+      }
+
+      // rings from the outside in (outer petals flare out, inner petals cup the flame)
+      const layers = [
+        { s: 1.00, n: 24, h: 0.62, lean: 0.34, curl: 0.12, y: 0.00, cup: 0.22, c1: 0x2e0306, c2: 0x7a0c0c },
+        { s: 0.84, n: 20, h: 0.74, lean: 0.20, curl: 0.06, y: 0.08, cup: 0.28, c1: 0x3a0407, c2: 0x8c1010 },
+        { s: 0.68, n: 16, h: 0.84, lean: 0.06, curl: 0.00, y: 0.18, cup: 0.32, c1: 0x440509, c2: 0x9e1511 },
+        { s: 0.52, n: 12, h: 0.84, lean: -0.08, curl: -0.06, y: 0.30, cup: 0.36, c1: 0x4e060a, c2: 0xb01c14 },
+        { s: 0.36, n: 8,  h: 0.72, lean: -0.16, curl: -0.10, y: 0.42, cup: 0.40, c1: 0x58070b, c2: 0xc02618 }
+      ];
+      layers.forEach((L, li) => {
+        const spacing = perim * S * L.s / L.n;
+        const phase = rnd();
+        for (let i = 0; i < L.n; i++) {
+          const [px, py] = atFrac((i + phase) / L.n);
+          const [qx, qy] = atFrac((i + phase) / L.n + 0.004), [rx, ry] = atFrac((i + phase) / L.n - 0.004);
+          let tx_ = qx - rx, ty_ = qy - ry; const tl = Math.hypot(tx_, ty_) || 1; tx_ /= tl; ty_ /= tl;
+          let ox = ty_, oy = -tx_;                                // outline normal
+          if (ox * px + oy * py < 0) { ox = -ox; oy = -oy; }       // make it point outward
+          const rl = Math.hypot(px, py) || 1;
+          const mx = ox * 0.7 + (px / rl) * 0.3, my = oy * 0.7 + (py / rl) * 0.3;  // mostly outline normal
+          const nl = Math.hypot(mx, my) || 1;
+          const nx = mx / nl, nz = -my / nl;                      // outward direction on the ground plane
+          const w = spacing * 1.0;
+          const h = L.h * (0.92 + rnd() * 0.16);
+          const m = new THREE.Mesh(makePetal(w, h, L.cup, L.curl, L.c1, L.c2), petalMat);
+          m.rotation.order = 'YXZ';
+          m.rotation.y = Math.atan2(nx, nz) + (rnd() - 0.5) * 0.12;
+          m.rotation.x = L.lean + (rnd() - 0.5) * 0.12;
+          m.position.set(px * S * L.s, TRAY_TOP + L.y + rnd() * 0.04, -py * S * L.s);
+          m.castShadow = true; m.receiveShadow = true;
+          root.add(m);
+        }
+      });
+
+      // ---- wick ----
+      const wickTopY = TRAY_TOP + 1.12;
+      const wick = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.014, 0.5, 8),
+        new THREE.MeshStandardMaterial({ color: 0x151515, roughness: 0.9 }));
+      wick.position.set(0, wickTopY - 0.25, 0);
+      root.add(wick);
+
+      // ---- lights ----
+      scene.add(new THREE.AmbientLight(0xffe4dc, 0.28));
+      const key = new THREE.DirectionalLight(0xfff0e0, 0.7);
+      key.position.set(-3.5, 6, 3); key.castShadow = true;
+      key.shadow.mapSize.set(1024, 1024);
+      Object.assign(key.shadow.camera, { left: -3.5, right: 3.5, top: 3.5, bottom: -3.5, near: 0.5, far: 15 });
+      key.shadow.bias = -0.0008;
+      scene.add(key);
+      const rim = new THREE.DirectionalLight(0xff9f9f, 0.35);
+      rim.position.set(3, 2, -4); scene.add(rim);
+
+      const flameLight = new THREE.PointLight(0xff9a3c, 0, 6, 2);
+      flameLight.position.set(0, wickTopY + 0.22, 0);
+      flameLight.castShadow = true;
+      flameLight.shadow.mapSize.set(512, 512);
+      flameLight.shadow.bias = -0.003;
+      scene.add(flameLight);
+
+      // ---- flame sprites (hidden until tapped) ----
+      function flameTexture() {
+        const c = document.createElement('canvas'); c.width = 128; c.height = 256;
+        const x = c.getContext('2d');
+        const g = x.createLinearGradient(0, 10, 0, 240);
+        g.addColorStop(0, 'rgba(255,120,20,0)');
+        g.addColorStop(0.25, 'rgba(255,165,40,0.9)');
+        g.addColorStop(0.6, 'rgba(255,236,150,1)');
+        g.addColorStop(0.88, 'rgba(255,255,255,1)');
+        g.addColorStop(1, 'rgba(110,140,255,0.8)');
+        x.filter = 'blur(3px)'; x.fillStyle = g;
+        x.beginPath(); x.moveTo(64, 8);
+        x.bezierCurveTo(98, 100, 116, 170, 64, 238);
+        x.bezierCurveTo(12, 170, 30, 100, 64, 8);
+        x.fill();
+        return new THREE.CanvasTexture(c);
+      }
+      function glowTexture() {
+        const c = document.createElement('canvas'); c.width = c.height = 128;
+        const x = c.getContext('2d');
+        const g = x.createRadialGradient(64, 64, 2, 64, 64, 64);
+        g.addColorStop(0, 'rgba(255,190,100,0.55)'); g.addColorStop(0.4, 'rgba(255,120,40,0.18)'); g.addColorStop(1, 'rgba(255,80,0,0)');
+        x.fillStyle = g; x.fillRect(0, 0, 128, 128);
+        return new THREE.CanvasTexture(c);
+      }
+      const flameSprite = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: flameTexture(), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false, opacity: 0 }));
+      flameSprite.renderOrder = 10;
+      flameSprite.center.set(0.5, 0.06);
+      flameSprite.position.set(0, wickTopY, 0.02);
+      scene.add(flameSprite);
+      const glowSprite = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: glowTexture(), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0 }));
+      glowSprite.scale.set(2.8, 2.8, 1);
+      glowSprite.position.set(0, wickTopY + 0.25, 0.1);
+      scene.add(glowSprite);
+
+      // ---- sizing + gentle pointer parallax ----
+      function resize() {
+        const w = host.clientWidth || 300, h = host.clientHeight || 240;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h; camera.updateProjectionMatrix();
+      }
+      window.addEventListener('resize', resize); resize();
+      let tx = 0, cx = 0;
+      host.addEventListener('pointermove', e => {
+        const r = host.getBoundingClientRect(); tx = ((e.clientX - r.left) / r.width - 0.5) * 0.9;
+      });
+      host.addEventListener('pointerleave', () => { tx = 0; });
+
+      const darkScreen = document.getElementById('darkScreen');
+      let lit = 0;
+      function loop(now) {
+        if (darkScreen.classList.contains('fade-out')) return;   // scene is gone, stop rendering
+        const t = now / 1000;
+        cx += (tx - cx) * 0.06;
+        const a = cx + Math.sin(t * 0.5) * 0.1;
+        camera.position.set(Math.sin(a) * 6.3, 5.3, Math.cos(a) * 6.3);
+        camera.lookAt(0, 0.25, 0.1);
+
+        const target = host.classList.contains('lit') ? 1 : 0;
+        lit += (target - lit) * 0.05;
+        
+        // Subtle breathing / heartbeat pulse when fully lit
+        let heartPulse = 1.0;
+        if (window.isAllLit) {
+          heartPulse = 1.0 + 0.035 * Math.sin(t * 4.0);
+        }
+        root.scale.set(heartPulse, heartPulse, heartPulse);
+
+        const f = 0.92 + 0.08 * Math.sin(t * 19) + (Math.random() - 0.5) * 0.08;
+        flameSprite.material.opacity = Math.min(1, lit * 1.2);
+        flameSprite.scale.set(0.5 * (0.95 + (Math.random() - 0.5) * 0.08) * lit, 1.1 * f * lit, 1);
+        flameSprite.position.x = Math.sin(t * 7) * 0.012;
+        glowSprite.material.opacity = lit * 0.9 * f;
+        flameLight.intensity = 2.1 * lit * f;
+        petalMat.emissiveIntensity = lit * 0.5 * f;
+        renderer.render(scene, camera);
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    })();
+</script>
+  <script>
+    let litCount = 0;
+    window.isAllLit = false;
+
+    function lightCandle(element, candleNumber) {
+      if (!element.classList.contains('lit')) {
+        element.classList.add('lit');
+        startFlame(element);
+        litCount++;
+        
+        // Enhanced particle reactions based on candle number
+        if (litCount === 1) {
+          launchExplosion('sparkles');
+        } else if (litCount === 2) {
+          launchExplosion('sparkles');
+          launchExplosion('sparkles');
+        } else if (litCount === 3) {
+          launchExplosion('hearts');
+        }
+
+        // Update atmospheric room illumination based on litCount
+        updateAmbientLighting();
+
+        // Show micro-messages for 1st and 2nd candles
+        const microMsg = document.getElementById('microMessage');
+        if (litCount === 1) {
+          microMsg.innerText = "One little light...";
+          microMsg.classList.add('visible');
+          setTimeout(() => microMsg.classList.remove('visible'), 2500);
+        } else if (litCount === 2) {
+          microMsg.innerText = "Another little light...";
+          microMsg.classList.add('visible');
+          setTimeout(() => microMsg.classList.remove('visible'), 2500);
+        } else if (litCount === 3) {
+          window.isAllLit = true;
+          microMsg.classList.remove('visible');
+          document.getElementById('darkInstruction').innerText = "All three candles are glowing... ❤️";
+          
+          setTimeout(() => {
+            startCinematicRevealSequence();
+          }, 1200);
+        }
+      }
+    }
+
+    function updateAmbientLighting() {
+      const ambientGlow = document.getElementById('roomAmbientGlow');
+      let opacityVal = 0;
+      if (litCount === 1) opacityVal = 0.4;
+      else if (litCount === 2) opacityVal = 0.7;
+      else if (litCount === 3) opacityVal = 1.0;
+      ambientGlow.style.setProperty('--ambient-opacity', opacityVal);
+    }
+
+    // --- Cinematic 3-4 second sequence when all 3 candles are lit ---
+    function startCinematicRevealSequence() {
+      const overlay = document.getElementById('phase1RevealOverlay');
+      overlay.classList.add('active');
+
+      const l1 = document.getElementById('revLine1');
+      const l2 = document.getElementById('revLine2');
+      const l3 = document.getElementById('revLine3');
+      const l4 = document.getElementById('revLine4');
+      const btn = document.getElementById('revealContinueBtn');
+
+      setTimeout(() => { l1.classList.add('show'); launchExplosion('sparkles'); }, 600);
+      setTimeout(() => { l1.classList.remove('show'); }, 3200);
+
+      setTimeout(() => { l2.classList.add('show'); }, 4000);
+      setTimeout(() => { l2.classList.remove('show'); }, 6800);
+
+      setTimeout(() => { l3.classList.add('show'); launchExplosion('hearts'); }, 7600);
+      setTimeout(() => { l3.classList.remove('show'); }, 10400);
+
+      setTimeout(() => { l4.classList.add('show'); btn.classList.add('show'); launchExplosion('hearts'); }, 11200);
+    }
+
+    function finishPhase1() {
+      document.body.classList.add('lights-on');
+      document.getElementById('darkScreen').classList.add('fade-out');
+      startBirthdayTune();
+      setTimeout(() => {
+        goToStep(1);
+      }, 800);
+    }
+
+
+    // --- Organic flame flicker (starts only when a candle is tapped) ---
+    function startFlame(container) {
+      const flame = container.querySelector('.c-flame');
+      if (!flame) return;
+      (function flicker() {
+        const x = (Math.random() - 0.5) * 3;
+        const sy = 0.9 + Math.random() * 0.2;
+        const sx = 0.95 + Math.random() * 0.1;
+        flame.style.transform = `translateX(${x}px) scale(${sx}, ${sy})`;
+        flame.style.opacity = 0.85 + Math.random() * 0.15;
+        setTimeout(flicker, Math.random() * 100 + 30);
+      })();
+    }
+
+    // --- Step Navigation Logic ---
+    let currentStep = 0;
+
+    function goToStep(stepNum) {
+      const activeCard = document.querySelector('.card.active');
+      if (activeCard) {
+        activeCard.classList.remove('active');
+      }
+
+      setTimeout(() => {
+        const nextCard = document.getElementById(`step${stepNum}`);
+        if (nextCard) {
+          nextCard.classList.add('active');
+          triggerStepFX(stepNum);
+        }
+      }, 300);
+
+      currentStep = stepNum;
+    }
+
+    // --- Phase 2: Perfected Cinematic Cake Candle Blow Out Logic ---
+    let cakeCandleBlown = false;
+
+    function blowOutCakeCandle() {
+      if (cakeCandleBlown) return;
+      cakeCandleBlown = true;
+
+      const flame = document.getElementById('cakeFlame');
+      const smoke = document.getElementById('candleSmoke');
+      const instruction = document.getElementById('cakeInstruction');
+      const title = document.getElementById('cakeTitle');
+
+      if (flame) {
+        // Step 1 (100-250ms): Flame becomes slightly brighter and larger
+        flame.style.transform = 'scale(1.25)';
+        flame.style.boxShadow = '0 0 25px rgba(255, 255, 255, 0.9), 0 0 45px rgba(255, 183, 3, 0.8)';
+
+        setTimeout(() => {
+          // Step 2 (250-500ms): Rapid flickering
+          flame.style.animation = 'none';
+          let flickCount = 0;
+          let flickInterval = setInterval(() => {
+            flame.style.transform = `scale(${Math.random() * 0.6 + 0.5}) rotate(${(Math.random() - 0.5) * 30}deg)`;
+            flickCount++;
+            if (flickCount > 6) {
+              clearInterval(flickInterval);
+              // Step 3 (500-700ms): Shrinks and disappears
+              flame.style.transition = 'all 0.25s ease-out';
+              flame.style.opacity = '0';
+              flame.style.transform = 'scale(0.1) translateY(-10px)';
+
+              // Trigger smoke wisp
+              if (smoke) smoke.classList.add('animate-smoke');
+            }
+          }, 40);
+        }, 220);
+      }
+
+      // Elegant magical particle burst
+      launchExplosion('hearts');
+      setTimeout(() => launchExplosion('sparkles'), 250);
+
+      // Smooth cinematic timing for wish messages
+      setTimeout(() => {
+        instruction.style.opacity = '0';
+        setTimeout(() => {
+          instruction.innerText = "Wish made... ❤️";
+          instruction.style.opacity = '1';
+        }, 300);
+      }, 900);
+
+      setTimeout(() => {
+        instruction.style.opacity = '0';
+        setTimeout(() => {
+          instruction.innerText = "Some wishes are already waiting to come true. ✨";
+          instruction.style.opacity = '1';
+        }, 300);
+      }, 2400);
+
+      setTimeout(() => {
+        title.style.opacity = '0';
+        setTimeout(() => {
+          title.innerText = "Wish Granted ✨";
+          title.style.opacity = '1';
+        }, 300);
+        
+        document.getElementById('step2Next').style.display = 'inline-block';
+        launchExplosion('hearts');
+      }, 3700);
+    }
+
+    // --- Phase 3: Interactive Romantic Chocolate Gift Box Logic ---
+    let chocolateBoxOpened = false;
+
+    function openChocolateBox() {
+      if (chocolateBoxOpened) return;
+      chocolateBoxOpened = true;
+
+      const boxScene = document.getElementById('phase3BoxScene');
+      const hint = document.getElementById('phase3Hint');
+      const messageBox = document.getElementById('phase3MessageBox');
+      const nextBtn = document.getElementById('step3Next');
+
+      if (boxScene) {
+        boxScene.classList.add('opened');
+      }
+
+      if (hint) {
+        hint.style.opacity = '0';
+      }
+
+      launchExplosion('sparkles');
+      setTimeout(() => launchExplosion('hearts'), 400);
+
+      setTimeout(() => {
+        if (messageBox) messageBox.classList.add('show');
+      }, 800);
+
+      setTimeout(() => {
+        if (nextBtn) nextBtn.style.display = 'inline-block';
+        launchExplosion('hearts');
+      }, 2200);
+    }
+
+    function tapChocolate(chocEl, wordText) {
+      const popup = chocEl.querySelector('.choc-popup-word');
+      if (popup) {
+        popup.classList.add('show');
+        setTimeout(() => {
+          popup.classList.remove('show');
+        }, 1200);
+      }
+      launchExplosion('sparkles');
+    }
+
+    // --- Background Music Player (HTML5 Audio) ---
+    function startBirthdayTune() {
+      const bgMusic = document.getElementById('bgMusic');
+      if (bgMusic) {
+        bgMusic.play().catch(e => {
+          console.log("Audio autoplay was blocked, waiting for user interaction", e);
+        });
+      }
+    }
+
+    // Ensure music starts on the first valid user interaction if blocked
+    document.addEventListener('pointerdown', function initAudioOnInteraction() {
+      const bgMusic = document.getElementById('bgMusic');
+      if (bgMusic && bgMusic.paused) {
+        bgMusic.play().catch(err => console.log("Playback prevented", err));
+      }
+    }, { once: true });
+
+    // --- Particle Effects (Hearts & Sparkles) ---
+    const canvas = document.getElementById('fxCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor(type) {
+        this.type = type;
+        this.x = canvas.width / 2 + (Math.random() - 0.5) * 150;
+        this.y = canvas.height / 2 + 50;
+        this.size = Math.random() * 14 + 6;
+        this.speedX = (Math.random() - 0.5) * 8;
+        this.speedY = Math.random() * -8 - 3;
+        this.gravity = 0.15;
+        this.opacity = 1;
+        this.color = type === 'hearts' ? `hsl(${Math.random() * 20 + 335}, 100%, 65%)` : `hsl(${Math.random() * 40 + 35}, 100%, 75%)`;
+      }
+      update() {
+        this.speedY += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.opacity -= 0.012;
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(this.opacity, 0);
+        ctx.fillStyle = this.color;
+
+        if (this.type === 'hearts') {
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y);
+          ctx.bezierCurveTo(this.x + this.size/2, this.y - this.size, this.x + this.size, this.y, this.x, this.y + this.size);
+          ctx.bezierCurveTo(this.x - this.size, this.y, this.x - this.size/2, this.y - this.size, this.x, this.y);
+          ctx.fill();
+        } else {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+    }
+
+    function launchExplosion(type) {
+      for (let i = 0; i < 35; i++) {
+        particles.push(new Particle(type));
+      }
+    }
+
+    function triggerStepFX(step) {
+      if (step === 3 || step === 6) {
+        launchExplosion('hearts');
+      }
+    }
+
+    function renderFX() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].opacity <= 0) {
+          particles.splice(i, 1);
+        }
+      }
+      requestAnimationFrame(renderFX);
+    }
+    renderFX();
+  </script>
+</body>
+</html>
